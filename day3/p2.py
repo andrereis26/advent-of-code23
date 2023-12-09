@@ -1,34 +1,47 @@
 def checkAdjacent(i, j, visited):
-    sum = 0
-
+    mult = 1
+    partNum=0
+    
     def isValid(x, y):
         return 0 <= x < len(matrix) and 0 <= y < len(matrix[i]) and (x, y) not in visited
 
     if isValid(i, j - 1) and matrix[i][j - 1].isdigit():  # left
-        sum += getFullNum(i, j - 1,visited)
+        mult *= getFullNum(i, j - 1,visited)
+        partNum += 1
         
     if isValid(i, j + 1) and matrix[i][j + 1].isdigit():  # right
-        sum += getFullNum(i, j + 1,visited)
+        mult *= getFullNum(i, j + 1,visited)
+        partNum += 1
         
     if isValid(i - 1, j) and matrix[i - 1][j].isdigit():  # top
-        sum += getFullNum(i - 1, j,visited)
+        mult *= getFullNum(i - 1, j,visited)
+        partNum += 1
         
     if isValid(i + 1, j) and matrix[i + 1][j].isdigit():  # bottom
-        sum += getFullNum(i + 1, j,visited)
+        mult *= getFullNum(i + 1, j,visited)
+        partNum += 1
         
     if isValid(i - 1, j - 1) and matrix[i - 1][j - 1].isdigit():  # top left
-        sum += getFullNum(i - 1, j - 1,visited)
+        mult *= getFullNum(i - 1, j - 1,visited)
+        partNum += 1
         
     if isValid(i + 1, j + 1) and matrix[i + 1][j + 1].isdigit():  # bottom right
-        sum += getFullNum(i + 1, j + 1,visited)
+        mult *= getFullNum(i + 1, j + 1,visited)
+        partNum += 1
         
     if isValid(i - 1, j + 1) and matrix[i - 1][j + 1].isdigit():  # top right
-        sum += getFullNum(i - 1, j + 1,visited)
+        mult *= getFullNum(i - 1, j + 1,visited)
+        partNum += 1
         
     if isValid(i + 1, j - 1) and matrix[i + 1][j - 1].isdigit():  # bottom left
-        sum += getFullNum(i + 1, j - 1,visited)
+        mult *= getFullNum(i + 1, j - 1,visited)
+        partNum += 1
 
-    return sum
+    if partNum == 2:
+        # print("found a gear: " + str(mult))
+        return mult
+    
+    return 0
 
 
 
@@ -65,7 +78,7 @@ visited = set()
 
 for i in range(0, len(matrix)):
     for j in range(0, len(matrix[i])):
-        if matrix[i][j] != "." and not matrix[i][j].isdigit():
+        if matrix[i][j] == "*":
             tot+=checkAdjacent(i, j, visited)
             
 print(tot)       
